@@ -59,7 +59,6 @@ import pandas as pd
 #
 #
 #
-#
 # 2. 폴더 속 여러 파일 한번에 읽기
 import json
 import pandas as pd
@@ -67,22 +66,22 @@ import os
 
 
 # 2-1. 경로 설정
-# import os
-# import io
-# import zipfile
-# from zipfile import ZipFile
-# import pandas as pd
-# import requests
-# import tensorflow as tf
-#
-#
+import os
+import io
+import zipfile
+from zipfile import ZipFile
+import pandas as pd
+import requests
+import tensorflow as tf
+
+
 # ## 현재 폴더 내 압축폴더 유무 확인
 # zipfiles = [file for file in os.listdir() if file.endswith('zip')]
 # print(zipfiles) #['TL3.zip', 'TL4.zip']
-#
+# # exit()
 # ## 압축 풀기
 # dest_path = './extractdir'
-# with zipfile.ZipFile('TL4.zip', 'r') as zf:
+# with zipfile.ZipFile('현민.zip', 'r') as zf:
 #   zipInfo = zf.infolist()
 #   for member in zipInfo:
 #     # print(member.filename.encode('cp437').decode('euc-kr', 'ignore'))
@@ -92,49 +91,49 @@ import os
 # exit()
 
 
-# # 2-1. 경로 지정
-# path = './extractdir/TL3/2.발화스타일/1.구연체/0029_G2A4E7S1C0_KJE/'
-# file_list = os.listdir(path)
-#
-#
-# # 2-2.  json파일만 리스트에 넣기
-# file_list_py = [file for file in file_list if file.endswith('.json')]
-#
-#
-# # 2-3. 데이터프레임으로 변환
-# dict_list = []
-# for i in file_list_py:
-#     for line in open((path+i),"r", encoding='utf-8'):
-#       try:
-#         dict_list.append(json.loads(line))
-#       except:
-#         pass
-# df = pd.DataFrame(dict_list)
-#
-#
-# # 2-4. 파일정보, 전사정보만 추출
-# df1 = df[['파일정보', '전사정보']]
-# print(df1)
-#
-#
-# files = []
-# for i in range(len(df1['파일정보'])):
-#   file = list(df['파일정보'][i].values())[1]
-#   files.append(file)
-#
-#
-# texts = []
-# for i in range(len(df1['전사정보'])):
-#   text = list(df['전사정보'][i].values())[0]
-#   texts.append(text)
-#
-#
-# df2 = pd.DataFrame({'file':files, 'text':texts})
-# print(df2)
-#
-#
-# # 2-5. 저장
-# df2.to_csv('./crawled_data/{}.csv'.format(path.split('/')[-2]))
+# 2-1. 경로 지정
+path = './승민/상구/0048_G2A3E5S1C0_LSW/'
+file_list = os.listdir(path)
+
+
+# 2-2.  json파일만 리스트에 넣기
+file_list_py = [file for file in file_list if file.endswith('.json')]
+
+
+# 2-3. 데이터프레임으로 변환
+dict_list = []
+for i in file_list_py:
+    for line in open((path+i),"r", encoding='utf-8'):
+      try:
+        dict_list.append(json.loads(line))
+      except:
+        pass
+df = pd.DataFrame(dict_list)
+
+
+# 2-4. 파일정보, 전사정보만 추출
+df1 = df[['파일정보', '전사정보']]
+print(df1)
+
+
+files = []
+for i in range(len(df1['파일정보'])):
+  file = list(df['파일정보'][i].values())[1]
+  files.append(file)
+
+
+texts = []
+for i in range(len(df1['전사정보'])):
+  text = list(df['전사정보'][i].values())[0]
+  texts.append(text)
+
+
+df2 = pd.DataFrame({'file':files, 'text':texts})
+print(df2)
+
+
+# 2-5. 저장
+df2.to_csv('./crawled_data/{}.csv'.format(path.split('/')[-2]))
 #
 #
 # # 3. 2번 과정 거친 파일 concat
