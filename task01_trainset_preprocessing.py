@@ -59,7 +59,8 @@ import pandas as pd
 #
 #
 #
-# 2. 폴더 속 여러 파일 한번에 읽기
+#
+# # 2. 폴더 속 여러 파일 한번에 읽기
 import json
 import pandas as pd
 import os
@@ -73,67 +74,67 @@ from zipfile import ZipFile
 import pandas as pd
 import requests
 import tensorflow as tf
-
-
-# ## 현재 폴더 내 압축폴더 유무 확인
-# zipfiles = [file for file in os.listdir() if file.endswith('zip')]
-# print(zipfiles) #['TL3.zip', 'TL4.zip']
-# # exit()
-# ## 압축 풀기
-# dest_path = './extractdir'
-# with zipfile.ZipFile('현민.zip', 'r') as zf:
-#   zipInfo = zf.infolist()
-#   for member in zipInfo:
-#     # print(member.filename.encode('cp437').decode('euc-kr', 'ignore'))
-#     member.filename = member.filename.encode('cp437').decode('euc-kr', 'ignore')  #한글 깨짐 방지
-#     zf.extract(member, dest_path)
 #
-# exit()
-
-
-# 2-1. 경로 지정
-path = './승민/상구/0048_G2A3E5S1C0_LSW/'
-file_list = os.listdir(path)
-
-
-# 2-2.  json파일만 리스트에 넣기
-file_list_py = [file for file in file_list if file.endswith('.json')]
-
-
-# 2-3. 데이터프레임으로 변환
-dict_list = []
-for i in file_list_py:
-    for line in open((path+i),"r", encoding='utf-8'):
-      try:
-        dict_list.append(json.loads(line))
-      except:
-        pass
-df = pd.DataFrame(dict_list)
-
-
-# 2-4. 파일정보, 전사정보만 추출
-df1 = df[['파일정보', '전사정보']]
-print(df1)
-
-
-files = []
-for i in range(len(df1['파일정보'])):
-  file = list(df['파일정보'][i].values())[1]
-  files.append(file)
-
-
-texts = []
-for i in range(len(df1['전사정보'])):
-  text = list(df['전사정보'][i].values())[0]
-  texts.append(text)
-
-
-df2 = pd.DataFrame({'file':files, 'text':texts})
-print(df2)
-
-
-# 2-5. 저장
-df2.to_csv('./crawled_data/{}.csv'.format(path.split('/')[-2]))
+#
+# # ## 현재 폴더 내 압축폴더 유무 확인
+# # zipfiles = [file for file in os.listdir() if file.endswith('zip')]
+# # print(zipfiles) #['TL3.zip', 'TL4.zip']
+# # # exit()
+# # ## 압축 풀기
+# # dest_path = './extractdir'
+# # with zipfile.ZipFile('현민.zip', 'r') as zf:
+# #   zipInfo = zf.infolist()
+# #   for member in zipInfo:
+# #     # print(member.filename.encode('cp437').decode('euc-kr', 'ignore'))
+# #     member.filename = member.filename.encode('cp437').decode('euc-kr', 'ignore')  #한글 깨짐 방지
+# #     zf.extract(member, dest_path)
+# #
+# # exit()
+#
+#
+# # 2-1. 경로 지정
+# path = './TL4/0040_G1A4E7S0C5_JMH/'
+# file_list = os.listdir(path)
+#
+#
+# # 2-2.  json파일만 리스트에 넣기
+# file_list_py = [file for file in file_list if file.endswith('.json')]
+#
+#
+# # 2-3. 데이터프레임으로 변환
+# dict_list = []
+# for i in file_list_py:
+#     for line in open((path+i),"r", encoding='utf-8'):
+#       try:
+#         dict_list.append(json.loads(line))
+#       except:
+#         pass
+# df = pd.DataFrame(dict_list)
+#
+#
+# # 2-4. 파일정보, 전사정보만 추출
+# df1 = df[['파일정보', '전사정보']]
+# print(df1)
+#
+#
+# files = []
+# for i in range(len(df1['파일정보'])):
+#   file = list(df['파일정보'][i].values())[1]
+#   files.append(file)
+#
+#
+# texts = []
+# for i in range(len(df1['전사정보'])):
+#   text = list(df['전사정보'][i].values())[1]
+#   texts.append(text)
+#
+#
+# df2 = pd.DataFrame({'file':files, 'text':texts})
+# print(df2)
+#
+#
+# # 2-5. 저장
+# df2.to_csv('./crawled_data/{}.csv'.format(path.split('/')[-2]), index=False)
 #
 #
 # # 3. 2번 과정 거친 파일 concat
@@ -153,59 +154,79 @@ df2.to_csv('./crawled_data/{}.csv'.format(path.split('/')[-2]))
 #
 #
 # # 3-3. csv파일로 저장
-# df.to_csv('./구연체.csv', index=False)
-
-
+# # df.to_csv('./승민.csv', index=False)
+# df.to_csv('./남.csv', index=False)
+#
+#
+#
 # 4. txt파일로 만들기
-df = pd.read_csv('./furious.csv')
+df = pd.read_csv('./남.csv')
 # print(len(df))
 # exit()
-
-
-# 4-1. 리스트로 만들기
-script_list = df['text'].values.tolist()
-# print(script_list)
+#
+#
+## 4-1. 리스트로 만들기
+# script_list = df['text'].values.tolist()
+# # print(script_list)
 # exit()
-
-
-# 4-2. text 속 특수문자 제거
-import string
-
-script_only = []
-for i in script_list:
-  input_string = i
-  output_string = input_string.translate(str.maketrans('', '', string.punctuation))
-  script_only.append(output_string)
-# print(script_only)
-
-
-# 4-3. text컬럼 값 수정
-df['text'] = pd.DataFrame(script_only)
-
-
-# 4-4. length 컬럼 추가
-length = []
-df1 = df['text']
-for i in df1:
-  length.append(len(i)+1)
-
-df['len'] = pd.DataFrame(length)
-
-
-# 4-5. 타입 변환
-df['len'] = df['len'].astype('str')
-df['file'] = df['file'].astype('str')
-
-
-# 4-6. 텍스트 파일 쓰기
-f = open('D:/mimic-recording-studio/audio_files/구연체-metadata.txt', 'w', encoding='utf-8')
-for i in range(len(df)):
-  f.write(df['file'][i] + '|' + df['text'][i] + '.' + '|' + df['len'][i] +'\n')
-f.close()
-
-
+#
+#
+# # 4-2. text 속 특수문자 제거
+# import string
+#
+# script_only = []
+# for i in script_list:
+#   input_string = i
+#   output_string = input_string.translate(str.maketrans('', '', string.punctuation))
+#   script_only.append(output_string)
+# # print(script_only)
+#
+#
+# # 4-3. text컬럼 값 수정
+# df['text'] = pd.DataFrame(script_only)
+#
+#
+# # 4-4. length 컬럼 추가
+# length = []
+# df1 = df['text']
+# for i in df1:
+#   length.append(len(i))
+#
+# df['len'] = pd.DataFrame(length)
+# # # print(df['len'][0])
+# # # exit()
+# #
+# #
+# # 4-5. 타입 변환
+# df['len'] = df['len'].astype('str')
+# df['file'] = df['file'].astype('str')
+# #
+# #
+# # 4-6. 텍스트 파일 쓰기
+# # f = open('D:/mimic-recording-studio/audio_files/gamsung-metadata.txt', 'w', encoding='utf-8')
+# f = open('./men-metadata.txt', 'w', encoding='utf-8')
+# for i in range(len(df)):
+#   # glow-tts
+#   f.write(df['file'][i] + '|' + df['text'][i] + '|' + df['len'][i] +'\n')
+#   ## tacotron2
+# #   f.write('wavs/'+df['file'][i] + '|' + df['text'][i] + '.' +'\n')
+# f.close()
+#
+#
 # # 4-7. 기존내용에 추가
 # f = open('D:/감성발화/train/heartbroken.txt', 'a', encoding='utf-8')
 # for i in range(15001, 30001):
 #   f.write('wavs/'+df['file'][i]+'|'+df['text'][i]+'\n')
+# f.close()
+#
+#
+# df = pd.read_table('./ljs_audio_text_val_filelist.txt', sep='/')
+# # print(df)
+#
+# df.drop('filelists', axis=1, inplace=True)
+# # print(df)
+# # print(df.columns)
+# f = open('D:/val_list.txt', 'w', encoding='utf-8')
+# for i in range(len(df)):
+#   f.write(df['wavs'][i]+'/'+df['0041_G1A3E3S4C0_JBG_000818.wav|악마 같은 녀석.'][i]+'\n')
 # f.close()
