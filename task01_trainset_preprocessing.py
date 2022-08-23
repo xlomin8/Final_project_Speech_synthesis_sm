@@ -75,21 +75,21 @@ import pandas as pd
 import requests
 import tensorflow as tf
 #
-#
-# # ## 현재 폴더 내 압축폴더 유무 확인
-# # zipfiles = [file for file in os.listdir() if file.endswith('zip')]
-# # print(zipfiles) #['TL3.zip', 'TL4.zip']
-# # # exit()
-# # ## 압축 풀기
-# # dest_path = './extractdir'
-# # with zipfile.ZipFile('현민.zip', 'r') as zf:
-# #   zipInfo = zf.infolist()
-# #   for member in zipInfo:
-# #     # print(member.filename.encode('cp437').decode('euc-kr', 'ignore'))
-# #     member.filename = member.filename.encode('cp437').decode('euc-kr', 'ignore')  #한글 깨짐 방지
-# #     zf.extract(member, dest_path)
-# #
+######################################################################
+# # cf 1. 현재 폴더 내 압축폴더 유무 확인
+# zipfiles = [file for file in os.listdir() if file.endswith('zip')]
+# print(zipfiles) #['TL3.zip', 'TL4.zip']
 # # exit()
+# # cf 2. 압축 풀기
+# dest_path = './extractdir'
+# with zipfile.ZipFile('현민.zip', 'r') as zf:
+#   zipInfo = zf.infolist()
+#   for member in zipInfo:
+#     # print(member.filename.encode('cp437').decode('euc-kr', 'ignore'))
+#     member.filename = member.filename.encode('cp437').decode('euc-kr', 'ignore')  #한글 깨짐 방지
+#     zf.extract(member, dest_path)
+#######################################################################
+#
 #
 #
 # # 2-1. 경로 지정
@@ -137,6 +137,7 @@ import tensorflow as tf
 # df2.to_csv('./crawled_data/{}.csv'.format(path.split('/')[-2]), index=False)
 #
 #
+#
 # # 3. 2번 과정 거친 파일 concat
 # import glob
 #
@@ -160,7 +161,7 @@ import tensorflow as tf
 #
 #
 # 4. txt파일로 만들기
-df = pd.read_csv('./남.csv')
+# df = pd.read_csv('./남.csv')
 # print(len(df))
 # exit()
 #
@@ -193,10 +194,10 @@ df = pd.read_csv('./남.csv')
 #   length.append(len(i))
 #
 # df['len'] = pd.DataFrame(length)
-# # # print(df['len'][0])
-# # # exit()
-# #
-# #
+# # print(df['len'][0])
+# # exit()
+#
+#
 # # 4-5. 타입 변환
 # df['len'] = df['len'].astype('str')
 # df['file'] = df['file'].astype('str')
