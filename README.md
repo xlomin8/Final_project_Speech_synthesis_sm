@@ -1,5 +1,5 @@
-# final_project_speech_synthesis
-아시아경제 파이널 프로젝트
+# final_team_project_UNA
+# Glow-TTS, Hifi-GAN을 활용한 동화 오디오북 기반 3D게임 서비스
 
 
 
